@@ -5,6 +5,6 @@ use v6;
 use Test;
 use lib 'lib';
 
-lives-ok { use Statico; }
+use-ok 'Statico', "Modules loads OK";
 
 done-testing;

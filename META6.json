@@ -3,8 +3,11 @@
     "Simon Proctor"
   ],
   "build-depends" : [ ],
-  "depends" : [ ],
-  "description" : "Static Website Builder",
+  "depends" : [
+    "Template6",
+    "Text::Markdown"
+  ],
+  "description" : "Static Website Generator",
   "license" : "Artistic-2.0",
   "name" : "Statico",
   "perl" : "6.c",
@@ -12,7 +15,7 @@
     "Statico" : "lib/Statico.pm6"
   },
   "resources" : [ ],
-  "source-url" : "",
+  "source-url" : "git://github.com/Scimon/Statico.git",
   "tags" : [ ],
   "test-depends" : [ ],
   "version" : "0.0.1"
