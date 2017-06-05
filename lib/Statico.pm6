@@ -6,19 +6,23 @@ class Statico {
   has ValidPath $!templates-path;
   has ValidPath $!data-path;
   has ValidPath $!build-path;
+  has ValidPath $!static-path;
 
-  submethod BUILD(Str :$templates-path = "",
-                  Str :$data-path = "",
-                  Str :$build-path = "") {
+  submethod BUILD(
+      Str :$templates-path = "",
+      Str :$data-path = "",
+      Str :$build-path = "",
+      Str :$static-path = "",
+  ) {
 
-    # Must be nicer way to do this. (It's kinda cool though)
-    if ! nodupes( $templates-path,$data-path,$build-path ) {
+    if ! nodupes( $templates-path,$data-path,$build-path,$static-path ) {
       fail "Paths must be different"
     }
 
     $!templates-path := $templates-path.IO;
     $!data-path := $data-path.IO;
     $!build-path := $build-path.IO;
+    $!static-path := $static-path.IO;
   }
 }
 
