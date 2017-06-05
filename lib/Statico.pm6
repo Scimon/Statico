@@ -1,12 +1,12 @@
-subset ValidPath of IO::Path where * ~~ :d;
+subset ValidDirectoryPath of IO::Path where * ~~ :d;
 
-sub nodupes ( *@a ) { return @a.grep( one(@a) ).elems == @a.elems }  
+sub nodupes ( *@a ) { return set(@a).elems == @a.elems }  
 
 class Statico {
-  has ValidPath $!templates-path;
-  has ValidPath $!data-path;
-  has ValidPath $!build-path;
-  has ValidPath $!static-path;
+  has ValidDirectoryPath $!templates-path;
+  has ValidDirectoryPath $!data-path;
+  has ValidDirectoryPath $!build-path;
+  has ValidDirectoryPath $!static-path;
 
   submethod BUILD(
       Str :$templates-path = "",
