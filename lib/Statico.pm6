@@ -1,5 +1,7 @@
 subset ValidPath of IO::Path where * ~~ :d;
 
+sub nodupes ( *@a ) { return @a.grep( one(@a) ).elems == @a.elems }  
+
 class Statico {
   has ValidPath $!templates-path;
   has ValidPath $!data-path;
@@ -10,7 +12,7 @@ class Statico {
                   Str :$build-path = "") {
 
     # Must be nicer way to do this. (It's kinda cool though)
-    if [$templates-path,$data-path,$build-path].grep($templates-path^$data-path^$build-path).elems != 3 {
+    if ! nodupes( $templates-path,$data-path,$build-path ) {
       fail "Paths must be different"
     }
 
