@@ -1,6 +1,6 @@
 subset ValidDirectoryPath of IO::Path where * ~~ :d;
 
-sub nodupes ( *@a ) { return set(@a).elems == @a.elems }  
+sub nodupes ( *@a ) { return set(@a).elems == @a.elems }
 
 class Statico {
   has ValidDirectoryPath $!templates-path;
@@ -23,6 +23,21 @@ class Statico {
     $!data-path := $data-path.IO;
     $!build-path := $build-path.IO;
     $!static-path := $static-path.IO;
+  }
+
+  # given a folder find all .md files and assign them to a channel for processing
+  method find-data ( Channel :$data-stream ) {
+    my @list = dir $!data-path;
+    while @list.pop -> $opt {
+      if $opt ~~ :d {
+        for dir $opt {
+          @list.push($_);
+        }
+      } elsif $opt ~~ m/\.md/ {
+        $data-stream.send( $opt );
+      }
+    }
+    $data-stream.close;
   }
 }
 
