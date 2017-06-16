@@ -17,6 +17,8 @@
   "resources" : [ ],
   "source-url" : "git://github.com/Scimon/Statico.git",
   "tags" : [ ],
-  "test-depends" : [ ],
+  "test-depends" : [
+      "File::Temp"
+    ],
   "version" : "0.0.1"
 }
