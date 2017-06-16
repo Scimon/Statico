@@ -32,11 +32,10 @@ for 1..20 {
     for 1..10 {
         my $file = "{$dir}/{$_}.yaml";
         spurt $file, qq:to/END/;
-title: File $_
-content: |
-  # Heading  
-END
-
+        title: File $_
+        content: |
+          # Heading  
+        END
         @expected.push( $file.IO );
     }
 }
