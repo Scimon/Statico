@@ -80,6 +80,6 @@ $statico.find-data( data-stream => $files );
 @found = $files.list;
 @expected = ( { file => "{$data-path}/index.yaml".IO, config => { test => True } }, );
 
-is-deeply( @found, [ @expected ], "_config files are skipped" );
+is-deeply( @found, [ @expected ], "_config files are processed" );
 
 done-testing;
