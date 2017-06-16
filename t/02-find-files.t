@@ -31,7 +31,7 @@ for 1..20 {
     mkdir $dir;
     for 1..10 {
         my $file = "{$dir}/{$_}.yaml";
-        spurt $file, qq:heredoc/END/;
+        spurt $file, qq:to/END/;
 title: File $_
 content: |
   # Heading  
