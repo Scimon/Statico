@@ -19,10 +19,9 @@ my $files = Channel.new;
 $statico.find-data( data-stream => $files );
 
 my @found = $files.list;
-my @expected;
-@expected.push( ( file => "t/examples/data/index.yaml".IO, config => {} ) );
+my @expected = ( { file => "t/examples/data/index.yaml".IO, config => {} }, );
 
-is-deeply( @found, [ @expected ] );
+is-deeply( @found, @expected );
 
 # Make some tmp folders
 my $data-path = tempdir;
@@ -38,7 +37,7 @@ for 1..20 {
         content: |
           # Heading  
         END
-        @expected.push( ( file => $file.IO, config => {} ) );
+        @expected.push( { file => $file.IO, config => {} } );
     }
 }
 
@@ -58,12 +57,13 @@ $statico.find-data( data-stream => $files );
 is-deeply( @found.sort, @expected.sort, "Folder spidering works" );
 
 $data-path = tempdir;
+
 spurt "{$data-path}/_config.yaml", q:to/END/;
-test: true;
+test: true
 END
 
 spurt "{$data-path}/index.yaml", q:to/END/;
-test: true;
+test: true
 END
 
 $files = Channel.new;
@@ -78,8 +78,7 @@ $statico = Statico.new(
 $statico.find-data( data-stream => $files );
 
 @found = $files.list;
-@expected = ();
-.push( ( file => "t/examples/data/index.yaml".IO, config => { test => True } ) );
+@expected = ( { file => "{$data-path}/index.yaml".IO, config => { test => True } }, );
 
 is-deeply( @found, [ @expected ], "_config files are skipped" );
 

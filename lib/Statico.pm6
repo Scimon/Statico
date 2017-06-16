@@ -30,26 +30,25 @@ class Statico {
   # given a folder find all .yaml files and assign them to a channel for processing
   method find-data ( Channel :$data-stream ) {  
     my @list = dir $!data-path;
-    my %config := {};
+    my $config = {};
     while @list.pop -> $opt {
       if $opt ~~ :d {
         for dir $opt {
           @list.push( $_ );
         }
       } elsif $opt ~~ m/\/_config\.yaml/ {
-        %config = parse-config( %config, $opt );  
+        $config = parse-config( config => $config, file => $opt );  
       } elsif $opt ~~ m/\.yaml/ {
-        $data-stream.send( ( file => $opt, config => %config ) );
+        $data-stream.send( { file => $opt, config => $config } );
       }
     }
     $data-stream.close;
   }
 }
 
-sub parse-config ( :%config, IO::Path :$file ) {
-    my %data = load-yaml( $file.path );
-    %config = ( %config, %data );
-    %config;
+sub parse-config ( :%config where Hash, IO::Path :$file ) {
+    my %data = load-yaml( $file.slurp );
+    { %config, %data };
 }
 
 =begin pod
