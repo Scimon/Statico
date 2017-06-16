@@ -1,4 +1,4 @@
-*/.precomp
+.precomp
 .gitignore
 .editorconfig
 *~

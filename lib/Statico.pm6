@@ -25,7 +25,7 @@ class Statico {
     $!static-path := $static-path.IO;
   }
 
-  # given a folder find all .md files and assign them to a channel for processing
+  # given a folder find all .yaml files and assign them to a channel for processing
   method find-data ( Channel :$data-stream ) {
     my @list = dir $!data-path;
     while @list.pop -> $opt {
@@ -33,7 +33,7 @@ class Statico {
         for dir $opt {
           @list.push($_);
         }
-      } elsif $opt ~~ m/\.md/ {
+      } elsif $opt ~~ m/\.yaml/ {
         $data-stream.send( $opt );
       }
     }

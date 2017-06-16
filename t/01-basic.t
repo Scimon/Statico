@@ -1,6 +1,10 @@
 use v6.c;
+use lib <lib .>;
 use Test;
 use Statico;
+use t::Env;
+
+build-env;
 
 dies-ok {
   my $statico = Statico.new();
