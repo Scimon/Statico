@@ -35,7 +35,7 @@ for 1..20 {
         spurt $file, qq:to/END/;
         title: File $_
         content: |
-          # Heading  
+          # Heading
         END
         @expected.push( { file => $file.IO, config => {} } );
     }
@@ -80,6 +80,24 @@ $statico.find-data( data-stream => $files );
 @found = $files.list;
 @expected = ( { file => "{$data-path}/index.yaml".IO, config => { test => True } }, );
 
-is-deeply( @found, [ @expected ], "_config files are processed" );
+is-deeply( @found, @expected , "_config files are processed" );
+
+mkdir "{$data-path}/child";
+
+spurt "{$data-path}/child/index.yaml", q:to/END/;
+test: true
+END
+
+$files = Channel.new;
+
+$statico.find-data( data-stream => $files );
+
+@found = $files.list;
+@expected = (
+  { file => "{$data-path}/index.yaml".IO, config => { test => True } },
+  { file => "{$data-path}/child/index.yaml".IO, config => { test => True } },
+);
+
+is-deeply( @found.sort, @expected.sort , "_config files found in children" );
 
 done-testing;
