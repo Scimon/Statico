@@ -33,7 +33,7 @@ class Statico {
         for dir $opt {
           @list.push($_);
         }
-      } elsif $opt ~~ m/\.yaml/ {
+      } elsif $opt ~~ m/\.yaml/ && $opt !~~ m/\/_config/ {
         $data-stream.send( $opt );
       }
     }

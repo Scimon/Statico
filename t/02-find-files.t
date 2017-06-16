@@ -53,6 +53,30 @@ $statico.find-data( data-stream => $files );
 
 @found = $files.list;
 
-is-deeply( @found.sort, @expected.sort );
+is-deeply( @found.sort, @expected.sort, "Folder spidering works" );
+
+$data-path = tempdir;
+spurt "{$data-path}/_config.yaml", q:to/END/;
+test: true;
+END
+
+spurt "{$data-path}/index.yaml", q:to/END/;
+test: true;
+END
+
+$files = Channel.new;
+
+$statico = Statico.new(
+    templates-path => 't/examples/templates',
+    data-path => $data-path,
+    build-path => 't/examples/build',
+    static-path => 't/examples/static',
+    );
+
+$statico.find-data( data-stream => $files );
+
+@found = $files.list;
+
+is-deeply( @found, ["{$data-path}/index.yaml".IO], "_config files are skipped" );
 
 done-testing;
