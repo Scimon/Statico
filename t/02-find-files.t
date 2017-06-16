@@ -19,12 +19,14 @@ my $files = Channel.new;
 $statico.find-data( data-stream => $files );
 
 my @found = $files.list;
+my @expected;
+@expected.push( ( file => "t/examples/data/index.yaml".IO, config => {} ) );
 
-is-deeply( @found, [ "t/examples/data/index.yaml".IO ] );
+is-deeply( @found, [ @expected ] );
 
 # Make some tmp folders
 my $data-path = tempdir;
-my @expected;
+@expected = ();
 
 for 1..20 {
     my $dir = "{$data-path}/$_";
@@ -36,7 +38,7 @@ for 1..20 {
         content: |
           # Heading  
         END
-        @expected.push( $file.IO );
+        @expected.push( ( file => $file.IO, config => {} ) );
     }
 }
 
@@ -76,7 +78,9 @@ $statico = Statico.new(
 $statico.find-data( data-stream => $files );
 
 @found = $files.list;
+@expected = ();
+.push( ( file => "t/examples/data/index.yaml".IO, config => { test => True } ) );
 
-is-deeply( @found, ["{$data-path}/index.yaml".IO], "_config files are skipped" );
+is-deeply( @found, [ @expected ], "_config files are skipped" );
 
 done-testing;

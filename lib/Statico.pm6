@@ -2,6 +2,8 @@ subset ValidDirectoryPath of IO::Path where * ~~ :d;
 
 sub nodupes ( *@a ) { return set(@a).elems == @a.elems }
 
+use YAMLish;
+
 class Statico {
   has ValidDirectoryPath $!templates-path;
   has ValidDirectoryPath $!data-path;
@@ -26,19 +28,28 @@ class Statico {
   }
 
   # given a folder find all .yaml files and assign them to a channel for processing
-  method find-data ( Channel :$data-stream ) {
+  method find-data ( Channel :$data-stream ) {  
     my @list = dir $!data-path;
+    my %config := {};
     while @list.pop -> $opt {
       if $opt ~~ :d {
         for dir $opt {
-          @list.push($_);
+          @list.push( $_ );
         }
-      } elsif $opt ~~ m/\.yaml/ && $opt !~~ m/\/_config/ {
-        $data-stream.send( $opt );
+      } elsif $opt ~~ m/\/_config\.yaml/ {
+        %config = parse-config( %config, $opt );  
+      } elsif $opt ~~ m/\.yaml/ {
+        $data-stream.send( ( file => $opt, config => %config ) );
       }
     }
     $data-stream.close;
   }
+}
+
+sub parse-config ( :%config, IO::Path :$file ) {
+    my %data = load-yaml( $file.path );
+    %config = ( %config, %data );
+    %config;
 }
 
 =begin pod

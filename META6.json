@@ -5,7 +5,8 @@
   "build-depends" : [ ],
   "depends" : [
     "Template6",
-    "Text::Markdown"
+    "Text::Markdown",
+    "Yamlish"
   ],
   "description" : "Static Website Generator",
   "license" : "Artistic-2.0",
