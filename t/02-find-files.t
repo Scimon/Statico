@@ -85,7 +85,7 @@ is-deeply( @found, @expected , "_config files are processed" );
 mkdir "{$data-path}/child";
 
 spurt "{$data-path}/child/index.yaml", q:to/END/;
-test: true
+test: True
 END
 
 $files = Channel.new;
@@ -99,5 +99,38 @@ $statico.find-data( data-stream => $files );
 );
 
 is-deeply( @found.sort, @expected.sort , "_config files found in children" );
+
+spurt "{$data-path}/child/_config.yaml", q:to/END/;
+test: false
+path: "bod"
+END
+
+$files = Channel.new;
+
+$statico.find-data( data-stream => $files );
+
+@found = $files.list;
+@expected = (
+  { file => "{$data-path}/index.yaml".IO, config => { test => True } },
+  { file => "{$data-path}/child/index.yaml".IO, config => { test => False, path => "bod"} },
+);
+
+is-deeply( @found.sort, @expected.sort , "_config files override parents" );
+
+spurt "{$data-path}/child/_config.yaml", q:to/END/;
+path: "bod"
+END
+
+$files = Channel.new;
+
+$statico.find-data( data-stream => $files );
+
+@found = $files.list;
+@expected = (
+  { file => "{$data-path}/index.yaml".IO, config => { test => True } },
+  { file => "{$data-path}/child/index.yaml".IO, config => { test => True, path => "bod"} },
+);
+
+is-deeply( @found.sort, @expected.sort , "_config files override parents" );
 
 done-testing;

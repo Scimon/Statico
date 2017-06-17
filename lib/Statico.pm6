@@ -28,18 +28,24 @@ class Statico {
   }
 
   # given a folder find all .yaml files and assign them to a channel for processing
-  method find-data ( Channel :$data-stream ) {  
-    my @list = dir $!data-path;
-    my $config = {};
+  method find-data ( Channel :$data-stream ) {
+    my @list = ( $!data-path.IO );
+    my %configs = %();
     while @list.pop -> $opt {
       if $opt ~~ :d {
+        if ( "{$opt.path}/_config.yaml".IO.e ) {
+          %configs{$opt.path} = parse-config(
+            config => %configs{$opt.parent.path} // {},
+            file => "{$opt.path}/_config.yaml".IO
+          );
+        } else {
+          %configs{$opt.path} = %configs{$opt.parent.path} // {};
+        }
         for dir $opt {
           @list.push( $_ );
         }
-      } elsif $opt ~~ m/\/_config\.yaml/ {
-        $config = parse-config( config => $config, file => $opt );  
-      } elsif $opt ~~ m/\.yaml/ {
-        $data-stream.send( { file => $opt, config => $config } );
+      } elsif $opt ~~ m/\.yaml/ && $opt !~~ m/_config\.yaml/ {
+        $data-stream.send( { file => $opt, config => %configs{$opt.parent.path} // {} } );
       }
     }
     $data-stream.close;
