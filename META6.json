@@ -6,7 +6,7 @@
   "depends" : [
     "Text::Markdown",
     "Template::Mustache",
-    "Yamlish"
+    "YAMLish"
   ],
   "description" : "Static Website Generator",
   "license" : "Artistic-2.0",
