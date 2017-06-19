@@ -4,7 +4,6 @@
   ],
   "build-depends" : [ ],
   "depends" : [
-    "Template6",
     "Text::Markdown",
     "Yamlish"
   ],
@@ -13,7 +12,9 @@
   "name" : "Statico",
   "perl" : "6.c",
   "provides" : {
-    "Statico" : "lib/Statico.pm6"
+    "Statico" : "lib/Statico.pm6",
+    "Statico::Generator" : "lib/Statico/Generator.pm6",
+    "Statico::Generator::Markdown" : "lib/Statico/Generator/Markdown.pm6"
   },
   "resources" : [ ],
   "source-url" : "git://github.com/Scimon/Statico.git",
