@@ -16,7 +16,7 @@ This is mostly an attempt for me to learn Perl6 by building a simple system to c
 AUTHOR
 ======
 
-Simon Proctor <simon.proctor@gmail.com>
+Scimon <simon.proctor@gmail.com>
 
 COPYRIGHT AND LICENSE
 =====================

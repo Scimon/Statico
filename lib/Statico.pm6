@@ -4,7 +4,7 @@ sub nodupes ( *@a ) { return set(@a).elems == @a.elems }
 
 use YAMLish;
 
-class Statico {
+class Statico:ver<0.0.2>:auth<"Scimon" (simon.proctor@gmail.com)> {
   has ValidDirectoryPath $!templates-path;
   has ValidDirectoryPath $!data-path;
   has ValidDirectoryPath $!build-path;
@@ -72,7 +72,7 @@ combine markdown files and templates to make a static site.
 
 =head1 AUTHOR
 
-Simon Proctor <simon.proctor@gmail.com>
+Scimon <simon.proctor@gmail.com>
 
 =head1 COPYRIGHT AND LICENSE
 
