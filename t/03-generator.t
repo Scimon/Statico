@@ -1,11 +1,8 @@
 use v6.c;
-use lib <lib .>;
+use lib <lib>;
 use Test;
-use t::Env;
 use File::Temp;
 use Statico;
-
-build-env;
 
 # Test requiring the module
 
