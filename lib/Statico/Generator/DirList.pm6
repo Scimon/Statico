@@ -5,10 +5,15 @@ use YAMLish;
 subset ValidDirectoryPath of IO::Path where * ~~ :d;
 
 class Statico::Generator::DirList does Statico::Generator {
+    has Template::Mustache $!stache;  
+    
+    submethod BUILD ( Statico:D :$statico ) {
+        $!stache = Template::Mustache.new( from => $statico.templates-path );
+    }
+
     method generate ( ValidDirectoryPath:D :$dir, Str:D :$template,
                       Bool :$files = True, Bool :$dirs = False, Str :$base-url = '/' ) {
 
-        my $stache = Template::Mustache.new;
         my @list = $dir.dir.sort;
         my %data = %( list => Array.new() );
         for @list -> $path {
@@ -31,6 +36,6 @@ class Statico::Generator::DirList does Statico::Generator {
                 %data{'list'}.push( { url => $url, title => %info{'title'} } );
             }
         }
-        $stache.render( $template, %data );
+        $!stache.render( $template, %data );
     }
 }

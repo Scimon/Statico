@@ -5,10 +5,10 @@ sub nodupes ( *@a ) { return set(@a).elems == @a.elems }
 use YAMLish;
 
 class Statico:ver<0.0.2>:auth<"Scimon" (simon.proctor@gmail.com)> {
-  has ValidDirectoryPath $!templates-path;
-  has ValidDirectoryPath $!data-path;
-  has ValidDirectoryPath $!build-path;
-  has ValidDirectoryPath $!static-path;
+  has ValidDirectoryPath $.templates-path;
+  has ValidDirectoryPath $.data-path;
+  has ValidDirectoryPath $.build-path;
+  has ValidDirectoryPath $.static-path;
 
   submethod BUILD(
       Str :$templates-path = "",
