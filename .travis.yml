@@ -4,10 +4,9 @@ os:
 language: perl6
 perl6:
   - latest
-  - 'v6.c'
 install:
   - rakudobrew build zef
   - zef install --debug --depsonly .
 script:
-  - PERL6LIB=$PWD/lib prove -e perl6 -vr t/
+  - PERL6LIB=lib prove -e perl6 -vr t/
 sudo: false
