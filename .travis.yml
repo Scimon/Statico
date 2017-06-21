@@ -4,6 +4,7 @@ os:
 language: perl6
 perl6:
   - latest
+  - '2017.06'
 install:
   - rakudobrew build zef
   - zef install --verbose --/test .
