@@ -5,7 +5,8 @@
   "build-depends" : [ ],
   "depends" : [
     "Text::Markdown",
-    "Template::Mustache"
+    "Template::Mustache",
+    "YAMLish"
   ],
   "description" : "Static Website Generator",
   "license" : "Artistic-2.0",
