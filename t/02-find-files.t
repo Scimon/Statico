@@ -1,5 +1,5 @@
 use v6.c;
-use lib <lib .>;
+use lib <.>;
 use Test;
 use Statico;
 use t::Env;
